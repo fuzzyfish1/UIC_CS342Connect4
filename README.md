@@ -1,5 +1,5 @@
 # UIC_CS342Connect4
-project done by: Angad Ghakal, and Zain Ali <br>
+project done by: Angad Gakhal, and Zain Ali <br>
 Class: UIC CS 342, Software Design
 
 # Connect 4
