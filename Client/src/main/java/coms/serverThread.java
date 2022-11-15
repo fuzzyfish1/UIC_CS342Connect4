@@ -1,5 +1,5 @@
 public class serverThread extends Thread {
-
+/*
 	Socket connection;
 	ObjectInputStream in;
 	ObjectOutputStream out;
@@ -33,7 +33,7 @@ public class serverThread extends Thread {
 
 
 
-
+*/
 
 
 

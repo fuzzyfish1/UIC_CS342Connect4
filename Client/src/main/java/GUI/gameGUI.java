@@ -1,6 +1,8 @@
-public class gameGUI extends Application {
+package GUI;
 
-	Scene StartMenu, gameScene;
+public class gameGUI /*extends Application*/ {
+
+	//Scene StartMenu, gameScene;
 
 	public void gameGUI() {
 
