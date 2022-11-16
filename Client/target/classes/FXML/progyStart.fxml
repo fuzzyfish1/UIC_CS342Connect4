@@ -6,11 +6,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="vbox" fx:controller = "MyController"
 			fx:id = "root">
-	<!-- TODO Add Nodes -->
-	
-	
+
 	<Button fx:id = "serverButton" text = "server" onAction = "#serverStart"/>
-	<Button fx:id = "clientButton" text = "gamer"/>
+	<Button fx:id = "clientButton" text = "gamer" onAction = "#gamerStart"/>
 	<TextField fx:id = "port" />
 	
 </VBox>

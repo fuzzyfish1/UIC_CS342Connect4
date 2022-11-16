@@ -1,4 +1,5 @@
 Main.class
+coms\comThread.class
+coms\CFourInfo.class
 MyController.class
-serverThread.class
 GUI\gameGUI.class
