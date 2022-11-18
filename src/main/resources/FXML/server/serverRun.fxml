@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ScrollPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id = "root2" styleClass="border" fx:controller = "GUI.server.runController">
+
+    <center><ScrollPane fx:id = "scrolly"/></center>
+
+</BorderPane>
+

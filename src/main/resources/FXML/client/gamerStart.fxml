@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" 
+              fx:id = "root2" styleClass="border" fx:controller = "GUI.MyController">
+	
+	<left><Button fx:id = "b1" text = "Gamer"/></left>
+</BorderPane>
+
