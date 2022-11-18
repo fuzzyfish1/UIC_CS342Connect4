@@ -1,5 +1,8 @@
+GUI\gameGUI.class
+game\servGame.class
 Main.class
-coms\comThread.class
+game\clientGame.class
+coms\servThread.class
 coms\CFourInfo.class
 MyController.class
-GUI\gameGUI.class
+coms\clientComThread.class

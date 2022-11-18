@@ -2,6 +2,18 @@ package coms;
 
 import java.io.Serializable;
 
+/*
+* // status is information passed from server to client, about the
+current game
+
+0 = client loses
+1 = client wins
+2 = tie
+3 = start game or ready to receive next move (both clients connected)
+
+* */
+
+
 public class CFourInfo implements Serializable {
 
 	int col;

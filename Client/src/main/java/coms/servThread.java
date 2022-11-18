@@ -1,56 +1,66 @@
+/* Project 3: Connect 4
+ *  CS342 11am T, TH Lec
+ *  This project is connect 4
+ *  uses sockets to connect to server
+ *  this is multiplayer
+ *  This is the Server Code that accepts new players
+ *  and starts a game for players
+ * */
 package coms;
+
 import game.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class servThread extends Thread {
 
-	private static comThread instance = null;
+	private static servThread instance = null;
 	int port;
+	ServerSocket serverSocket;
 
-	public static comThread getInstance() {
+	Consumer<Object> a; // callback
+
+
+	public static servThread getInstance() {
 
 		if (instance == null) {
-			instance = new comThread();
+			instance = new servThread();
 		}
 
 		return instance;
 	}
 
-	public void init(int port) {
+	public void init(int port, Consumer<Object> a) {
 		this.port = port;
-	}
-
-	@Override
-	public void run() {
-
-		ServerSocket serverSocket = null;
+		this.a = a;
 
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
-		while (true) {
+	@Override
+	public void run() {
 
-			try {
+		try {
 
-				servGame e = new servGame();
-				e.init(serverSocket.accept(), serverSocket.accept());
-				e.run();
+			Socket p1 = serverSocket.accept();
+			Socket p2 = serverSocket.accept();
 
-			} catch (IOException e) {
+			servGame g = new servGame();
 
-				System.out.println("I/O error: " + e);
-			}
+			g.init(p1, p2);
+			g.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 
 	}
 }

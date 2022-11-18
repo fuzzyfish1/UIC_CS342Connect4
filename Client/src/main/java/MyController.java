@@ -1,57 +1,55 @@
+/* Project 3: Connect 4
+ *  CS342 11am T, TH Lec
+ *  This project is connect 4
+ *  uses sockets to connect to server
+ *  this is multiplayer
+ *  My Controller controls GUI and
+ *  Initializes the server and any communications
+ * */
+
 import coms.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import game.clientGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MyController implements Initializable {
-	private static MyController instance = null;
 	static Stage primaryStage = null;
 	@FXML
-	private VBox root;
+	public ScrollPane veiw;
 
-	@FXML
-	private BorderPane root2;
-
+	//static so each instance of controller can access to update
+	Scene serverScene;
+	Scene gamerScene;
 	@FXML
 	private TextField port;
 
-	@FXML
-	private TextField putText;
 
-	//static so each instance of controller can access to update
-	private static String textEntered = "";
+	// TODO: get rid of vv
 
-	Scene serverScene;
-	Scene gamerScene;
-
-	public static MyController getInstance() {
-		if (instance == null) {
-			instance = new MyController();
-		}
-
-		return instance;
+	public MyController () {
+		super();
 	}
 
-	public void setStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+	public static void setStage(Stage primaryStage) {
+		MyController.primaryStage = primaryStage;
 	}
 
 	public void start() throws IOException {
 		Parent root = FXMLLoader.load(getClass()
-				.getResource("/FXML/progyStart.fxml"));
+				.getResource("/FXML/start.fxml"));
 
 		primaryStage.setTitle("connect 4 Start");
 		Scene s1 = new Scene(root, 500, 500);
@@ -65,7 +63,7 @@ public class MyController implements Initializable {
 	public void initGamerScene() throws IOException {
 
 		Parent root = FXMLLoader.load(getClass()
-				.getResource("/FXML/gamerStart.fxml"));
+				.getResource("/FXML/client/gamerStart.fxml"));
 
 		gamerScene = new Scene(root, 500, 500);
 
@@ -75,7 +73,7 @@ public class MyController implements Initializable {
 
 	public void initServerScene() throws IOException {
 		Parent root = FXMLLoader.load(getClass()
-				.getResource("/FXML/serverStart.fxml"));
+				.getResource("/FXML/server/serverStart.fxml"));
 
 		serverScene = new Scene(root, 500, 500);
 		serverScene.getStylesheets().add("/styles/style2.css");
@@ -83,14 +81,35 @@ public class MyController implements Initializable {
 	}
 
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-        
+
 	}
-    //method so that the controller created for second view can update the text
-    //field with the text from the first vie
+	//method so that the controller created for second view can update the text
+	//field with the text from the first vie
+
+	public void serverThreadStart(ActionEvent e) throws IOException {
+		if (validatePort()) {
+
+			Parent root = FXMLLoader.load(getClass()
+					.getResource("/FXML/server/serverRun.fxml"));
+
+			serverScene = new Scene(root, 500, 500);
+			serverScene.getStylesheets().add("/styles/style2.css");
+
+
+			primaryStage.setTitle("Server Run");
+			primaryStage.setScene(serverScene);
+			primaryStage.show();
+
+			servThread.getInstance().init(Integer.parseInt(port.getText()));
+			servThread.getInstance().start();
+
+		} else {
+			port.setText("invalid port: ");
+		}
+	}
 
 	public boolean validatePort() {
 		return Integer.parseInt(port.getText()) > 1024;
@@ -98,55 +117,45 @@ public class MyController implements Initializable {
 
 	public void serverStart(ActionEvent e) throws IOException {
 
-		if (validatePort()) {
-			initServerScene();
+		initServerScene();
 
-			Consumer<CFourInfo> walmart = f -> {
-				System.out.println(f.getCol());
-				System.out.println(f.getPlayer());
-				System.out.println(f.getStatus());
-			};
+		primaryStage.setTitle("Server Application");
+		primaryStage.setScene(serverScene);
+		primaryStage.show();
 
-			servThread.getInstance().init(Integer.parseInt(port.getText()), true, walmart);
-
-			comThread.getInstance().start();
-
-			primaryStage.setTitle("Server Application");
-			primaryStage.setScene(serverScene);
-			primaryStage.show();
-		} else {
-			port.setText("Invalid port#");
-		}
 	}
 
 	public void gamerStart(ActionEvent e) throws IOException {
 
-		if (validatePort()) {
+		initGamerScene();
 
-			initGamerScene();
+		Consumer<CFourInfo> walmart = f -> {
 
-			// TODO: start Game
+			System.out.println("recieved:  ");
+			System.out.println(f.getCol());
+			System.out.println(f.getPlayer());
+			System.out.println(f.getStatus());
 
-			Consumer<CFourInfo> walmart = f -> {
-				System.out.println(f.getCol());
-				System.out.println(f.getPlayer());
-				System.out.println(f.getStatus());
-			};
+			try {
+				clientGame.getInstance().enemyMove(f);
+				clientGame.getInstance().makeMove();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 
-			comThread.getInstance().init(Integer.parseInt(port.getText()), false, walmart);
+		};
 
-			comThread.getInstance().start();
+		clientComThread.getInstance().init(5555, walmart);
+		clientComThread.getInstance().start();
 
-
-
-			primaryStage.setTitle("Gamy boi");
-			primaryStage.setScene(gamerScene);
-			primaryStage.show();
-		} else {
-			port.setText("Invalid port#");
-		}
+		primaryStage.setTitle("Gamy boi");
+		primaryStage.setScene(gamerScene);
+		primaryStage.show();
 	}
-	
-	
 
+	public void echo(ActionEvent e) throws IOException {
+		clientComThread.getInstance().send(
+				new CFourInfo(0, 10, 2)
+		);
+	}
 }

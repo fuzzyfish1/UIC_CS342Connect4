@@ -4,12 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id = "root2" styleClass="border" fx:controller = "MyController">
     <!-- TODO Add Nodes -->
 
-    <left><Button fx:id = "b1" text = "server"/></left>
+    <center><Text fx:id = "b1" text = "server"/></center>
     <left><Button fx:id = "b2" text = "Start" onAction="#serverThreadStart"/></left>
-    <TextField fx:id = "port" text = "5555" />
+    <right><TextField fx:id = "port" /></right>
 </BorderPane>
 

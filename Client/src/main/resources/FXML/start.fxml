@@ -9,7 +9,7 @@
 
 	<Button fx:id = "serverButton" text = "server" onAction = "#serverStart"/>
 	<Button fx:id = "clientButton" text = "gamer" onAction = "#gamerStart"/>
-	<TextField fx:id = "port" />
+	<!--<TextField fx:id = "port" />-->
 	
 </VBox>
 

@@ -1,7 +1,13 @@
+/* Project 3: Connect 4
+*  CS342 11am T, TH Lec
+*  This project is connect 4
+*  uses sockets to connect to server
+*  this is multiplayer
+*  Main starts the program by giving the
+*  GUI controller access to the primary stage
+* */
+
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -14,8 +20,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		try {
 
-			MyController.getInstance().setStage(primaryStage);
-			MyController.getInstance().start();
+			MyController.setStage(primaryStage);
+
+			MyController x = new MyController();
+			x.start();
 
 		} catch (Exception e) {
 			e.printStackTrace();
