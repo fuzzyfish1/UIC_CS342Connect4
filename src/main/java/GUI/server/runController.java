@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 
@@ -26,7 +27,7 @@ import javafx.scene.text.Text;
 public class runController implements Initializable {
     //static Stage primaryStage = null;
     @FXML
-    public ScrollPane scrolly;
+    public ListView scrolly;
 
     public runController () {
         super();
@@ -35,12 +36,11 @@ public class runController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Text t = new Text();
-        scrolly.setContent(t);
+        Consumer<String> addToScrollable = f -> {
+            Text t = new Text();
 
-        Consumer<servGame> addToScrollable = f -> {
-            t.setText(t.getText() + "P1: " + f.getP1().getInetAddress() + ":" + f.getP1().getLocalPort());
-            t.setText(t.getText() + "P2: " + f.getP2().getInetAddress() + ":" + f.getP2().getLocalPort());
+            t.setText(f);
+            scrolly.getItems().add(t);
         };
 
         servThread.getInstance().init(Globals.temp.port, addToScrollable);

@@ -8,19 +8,18 @@ import java.io.InputStreamReader;
 public class clientGame {
 
 	// TODO: put these in constants and verify
-	final int width = 7;
-	final int longth = 6;
 
 	// 0, 0 is bottom left of board
 	// use 1 for our pieces, 0 for empty, 2 for enemy
 	// x y
-	public int[][] board = new int[width][longth];
+	public int[][] board = new int[Globals.constants.width][Globals.constants.height];
 
+	int turnNum = 0; // make move on odd nums
 	private static clientGame instance = null;
 
 	private clientGame() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < longth; y++) {
+		for (int x = 0; x < Globals.constants.width; x++) {
+			for (int y = 0; y < board[0].length; y++) {
 				board[x][y] = 0;
 			}
 		}
@@ -34,11 +33,10 @@ public class clientGame {
 		return instance;
 	}
 
-
 	public void printBoard() {
 		// print out new board
-		for (int y = longth - 1; y >= 0; y--) {
-			for (int x = 0; x < width; x++) {
+		for (int y = Globals.constants.height - 1; y >= 0; y--) {
+			for (int x = 0; x < Globals.constants.width; x++) {
 
 				System.out.print(board[x][y]);
 
@@ -48,20 +46,29 @@ public class clientGame {
 	}
 
 	public void enemyMove(CFourInfo info) {
+
+		int col = info.getCol();
+
+		if (col == -1) {
+			turnNum ++; // priming counter
+			return;
+		} else if (turnNum % 2 == 1) {
+			System.out.println("Not their Move");
+			return;
+		}
+
+		turnNum ++;
+
 		if (info.getStatus() == 1) {
 			System.out.println("enemy Wins");
 		} else if (info.getStatus() == 2) {
 			System.out.println("We tie");
 		}
 
-		int col = info.getCol();
-
-		if (col != -1) {
-			for (int y = 0; y < longth; y++) {
-				if (board[col][y] == 0) {
-					board[col][y] = 2;
-					break;
-				}
+		for (int y = 0; y < Globals.constants.height; y++) {
+			if (board[col][y] == 0) {
+				board[col][y] = 2;
+				break;
 			}
 		}
 
@@ -69,20 +76,26 @@ public class clientGame {
 
 	}
 
-	public void makeMove() throws IOException {
+	public void makeMove(int col) throws IOException {
 
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(System.in));
+		System.out.println("jklsdfjklsdfjklsdfjklsdfjksdfjklsdfjklfa;slkdfjasld fkjakl;sdk fja;sd flkjasd; fklja sd ;lfkjas;dlfkajsdf;lkjasd f;kjCOL NUM: ");
+		System.out.println(col);
 
-		System.out.println(this);
+		if (turnNum % 2 == 0) {
+			System.out.println("Not Our Move");
+			return;
+		}
+
+		turnNum ++;
+
 		System.out.println("making Move: ");
 
 		// read the value of user input for col
-		int col = Integer.parseInt(reader.readLine());
+		//int col = Integer.parseInt(reader.readLine());
 		int player = 0;
 
 		// drop piece into slot
-		for (int i = 0; i < longth; i++) {
+		for (int i = 0; i < Globals.constants.height; i++) {
 			if (board[col][i] == 0) {
 				board[col][i] = 1;
 				break;
@@ -91,12 +104,10 @@ public class clientGame {
 
 		int status = this.checkWin();
 
-		// send
 		clientComThread.getInstance().send(
 				new CFourInfo( col, player, status)
 		);
 
-		// print out new board
 		printBoard();
 	}
 
@@ -105,7 +116,7 @@ public class clientGame {
 		int xEnd = spotX + 3 * x;
 		int yEnd = spotY + 3 * y;
 
-		if (xEnd > width || xEnd < 0 || yEnd > longth || yEnd < 0) {
+		if (xEnd > Globals.constants.width || xEnd < 0 || yEnd > Globals.constants.height || yEnd < 0) {
 			return false;
 		}
 
@@ -118,13 +129,6 @@ public class clientGame {
 			spotX += x;
 			spotY += y;
 		}
-
-		System.out.println(" 4 in row at");
-		System.out.println(spotX);
-		System.out.println(spotY);
-
-		System.out.println(x);
-		System.out.println(y);
 
 		return true;
 	}
@@ -139,8 +143,8 @@ public class clientGame {
 		int count = 0;
 		boolean win = false;
 
-		for (int x = 0; x < width; x ++) {
-			for (int y = 0; y < longth; y++) {
+		for (int x = 0; x < Globals.constants.width; x ++) {
+			for (int y = 0; y < Globals.constants.height; y++) {
 
 				if (board[x][y] == 1) {
 
@@ -160,12 +164,11 @@ public class clientGame {
 			}
 		}
 
-		if (count == longth * width) {
+		if (count == Globals.constants.height * Globals.constants.width) {
 			System.out.println("we tied");
 			return 2;
 		} else {
 			return 3;
 		}
 	}
-
 }

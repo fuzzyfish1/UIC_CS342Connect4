@@ -2,11 +2,10 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id = "root2" styleClass="border" fx:controller = "GUI.game.grunController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1"
+          fx:id = "pane" styleClass="border" fx:controller = "GUI.game.grunController">
 
-
-
-</BorderPane>
+</GridPane>
 

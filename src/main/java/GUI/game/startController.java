@@ -49,35 +49,14 @@ public class startController implements Initializable {
 
             Globals.temp.port = Integer.parseInt(port.getText());
 
-            Consumer<CFourInfo> walmart = f -> {
-
-                System.out.println("recieved:  ");
-                System.out.println(f.getCol());
-                System.out.println(f.getPlayer());
-                System.out.println(f.getStatus());
-
-                try {
-                    clientGame.getInstance().enemyMove(f);
-                    clientGame.getInstance().makeMove();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            };
-
-            clientComThread.getInstance().init(Globals.temp.port, walmart);
-            clientComThread.getInstance().start();
-
             Parent root = FXMLLoader.load(getClass()
                     .getResource("/FXML/client/clientRun.fxml"));
-
 
             Scene s1 = new Scene(root, 500, 500);
             s1.getStylesheets().add("/styles/style2.css");
 
             primaryStage.setTitle("gamer Run");
             primaryStage.setScene(s1);
-
-
 
         } else {
             port.setText("invalid port: ");

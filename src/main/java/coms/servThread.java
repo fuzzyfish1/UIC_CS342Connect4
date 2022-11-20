@@ -21,7 +21,7 @@ public class servThread extends Thread {
 	int port;
 	ServerSocket serverSocket;
 
-	Consumer<servGame> a; // callback
+	Consumer<String> a; // callback
 
 	public static servThread getInstance() {
 
@@ -32,7 +32,7 @@ public class servThread extends Thread {
 		return instance;
 	}
 
-	public void init(int port, Consumer<servGame> a) {
+	public void init(int port, Consumer<String> a) {
 		this.port = port;
 		this.a = a;
 
@@ -49,12 +49,14 @@ public class servThread extends Thread {
 		try {
 
 			Socket p1 = serverSocket.accept();
+			a.accept("P1: " + p1.getInetAddress() + ":" + p1.getLocalPort());
+
 			Socket p2 = serverSocket.accept();
+			a.accept("P2: " + p1.getInetAddress() + ":" + p1.getLocalPort());
 
 			servGame g = new servGame();
 
-			g.init(p1, p2);
-			a.accept(g);
+			g.init(p1, p2, a);
 
 			g.start();
 

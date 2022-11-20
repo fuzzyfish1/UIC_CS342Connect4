@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.function.Consumer;
 
 public class servGame extends Thread {
 
@@ -26,15 +27,20 @@ public class servGame extends Thread {
 	ObjectOutputStream p1out;
 	ObjectOutputStream p2out;
 
-	public void init (Socket s1, Socket s2) throws IOException {
+	Consumer<String> a;
+
+	public void init (Socket s1, Socket s2, Consumer<String> a) throws IOException {
 		this.p1 = s1;
 		this.p2 = s2;
+		this.a = a;
 
 		p1In = new ObjectInputStream(p1.getInputStream());
 		p2In = new ObjectInputStream(p2.getInputStream());
 
 		p1out = new ObjectOutputStream(p1.getOutputStream());
 		p2out = new ObjectOutputStream(p2.getOutputStream());
+
+		a.accept("ServGame Started");
 	}
 
 
@@ -42,37 +48,28 @@ public class servGame extends Thread {
 	public void run() {
 		try {
 
-			p2out.writeObject( new CFourInfo(-1, 0, 3));
-						//p2In = new ObjectInputStream(p2.getInputStream());
+			p1out.writeObject( new CFourInfo(-1, 0, 3));
+			a.accept("Sent CFourInfo to P1: col -1, P0, Status3");
 
 			while (true) {
 
-				CFourInfo data = (CFourInfo) p2In.readObject();
+				CFourInfo data = (CFourInfo) p1In.readObject();
 
 				if (data != null) {
 
-					System.out.println("Game Obj Recieve2: ");
-					System.out.println(data.getPlayer());
-					System.out.println(data.getCol());
-					System.out.println(data.getStatus());
+					a.accept("Received CFourInfo from P1: col" + data.getCol() + ", P" + data.getPlayer() + ", Status" + data.getStatus());
+					p2out.writeObject(data);
+				}
 
+				data = (CFourInfo) p2In.readObject();
+
+				if (data != null) {
+
+					a.accept("Received CFourInfo from P2: col" + data.getCol() + ", P" + data.getPlayer() + ", Status" + data.getStatus());
 					p1out.writeObject(data);
 
 				}
-
-				 data = (CFourInfo) p1In.readObject();
-
-				if (data != null) {
-
-					System.out.println("Game Obj Recieve1: ");
-					System.out.println(data.getPlayer());
-					System.out.println(data.getCol());
-					System.out.println(data.getStatus());
-
-					p2out.writeObject(data);
-				}
 			}
-
 
 		} catch (Exception e) {
 			e.printStackTrace();

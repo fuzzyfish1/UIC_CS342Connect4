@@ -1,4 +1,3 @@
-game\Globals$temp.class
 GUI\server\startController.class
 GUI\game\startController.class
 GUI\server\runController.class
@@ -8,4 +7,7 @@ Main.class
 coms\servThread.class
 coms\CFourInfo.class
 GUI\game\grunController.class
+game\Globals$temp.class
+game\Globals$constants.class
 coms\clientComThread.class
+GUI\game\GameButton.class
