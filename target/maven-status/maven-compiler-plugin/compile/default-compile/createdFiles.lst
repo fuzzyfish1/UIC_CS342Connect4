@@ -1,10 +1,11 @@
 game\Globals$temp.class
 GUI\server\startController.class
+GUI\game\startController.class
 GUI\server\runController.class
 game\Globals.class
 game\servGame.class
 Main.class
-game\clientGame.class
 coms\servThread.class
 coms\CFourInfo.class
+GUI\game\grunController.class
 coms\clientComThread.class

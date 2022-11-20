@@ -7,6 +7,8 @@
  * */
 package coms;
 
+import game.Globals;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,7 +40,7 @@ public class clientComThread extends Thread {
 		this.port = port;
 		this.callback = callback;
 
-		connection = new Socket("localhost", 5555);
+		connection = new Socket("localhost", Globals.temp.port);
 
 		out = new ObjectOutputStream(connection.getOutputStream());
 		in = new ObjectInputStream(connection.getInputStream());
@@ -57,7 +59,6 @@ public class clientComThread extends Thread {
 				if (message != null) {
 					callback.accept(message);
 				}
-
 			}
 
 		} catch (Exception e) {

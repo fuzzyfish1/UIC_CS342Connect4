@@ -24,8 +24,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 // for start
@@ -82,27 +80,8 @@ public class MyController implements Initializable {
 		gamerScene.getStylesheets().add("/styles/style2.css");
 		primaryStage.setTitle("gamer");
 
-		Consumer<CFourInfo> walmart = f -> {
-
-			System.out.println("recieved:  ");
-			System.out.println(f.getCol());
-			System.out.println(f.getPlayer());
-			System.out.println(f.getStatus());
-
-			try {
-				clientGame.getInstance().enemyMove(f);
-				clientGame.getInstance().makeMove();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		};
-
-		clientComThread.getInstance().init(5555, walmart);
-		clientComThread.getInstance().start();
-
 		primaryStage.setTitle("Gamy boi");
 		primaryStage.setScene(gamerScene);
 		primaryStage.show();
 	}
-
 }

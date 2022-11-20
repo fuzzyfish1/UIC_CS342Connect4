@@ -10,6 +10,6 @@
 
     <center><Text fx:id = "b1" text = "server"/></center>
     <left><Button fx:id = "b2" text = "Start" onAction="#serverThreadStart"/></left>
-    <right><TextField fx:id = "port" /></right>
+    <right><TextField fx:id = "port" text = "5555"/></right>
 
 </BorderPane>
