@@ -1,4 +1,4 @@
-package GUI.server;
+package GUI;
 /* Project 3: Connect 4
  *  CS342 11am T, TH Lec
  *  This project is connect 4

@@ -1,4 +1,4 @@
-package GUI.server;
+package GUI;
 /* Project 3: Connect 4
  *  CS342 11am T, TH Lec
  *  This project is connect 4
@@ -8,12 +8,7 @@ package GUI.server;
  *  Initializes the server and any communications
  * */
 
-import logic.*;
-
-import java.io.*;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import logic.Globals;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +19,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 // for start
-public class startController implements Initializable {
+public class gameStartController implements Initializable {
     static Stage primaryStage = Globals.temp.primaryStage;
     @FXML
     public TextField port;
@@ -33,32 +32,27 @@ public class startController implements Initializable {
     @FXML
     public Button b2;
 
-    public startController () {
+    public gameStartController() {
         super();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
 
-	public void serverThreadStart (ActionEvent e) throws IOException {
+	public void gameThreadStart (ActionEvent e) throws IOException {
 
         if (validatePort()) {
-            try {
 
-                Globals.temp.port = Integer.parseInt(port.getText());
+            Globals.temp.port = Integer.parseInt(port.getText());
 
-                Parent root = FXMLLoader.load(getClass()
-                        .getResource("/FXML/server/serverRun.fxml"));
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("/FXML/gameScene.fxml"));
 
-                Scene s1 = new Scene(root, 500, 500);
-                s1.getStylesheets().add("/styles/style2.css");
+            Scene s1 = new Scene(root, 500, 500);
+            s1.getStylesheets().add("/styles/style2.css");
 
-                primaryStage.setTitle("Server Run");
-                primaryStage.setScene(s1);
-
-            } catch (Exception g) {
-                g.printStackTrace();
-            }
+            primaryStage.setTitle("gamer Run");
+            primaryStage.setScene(s1);
 
         } else {
             port.setText("invalid port: ");

@@ -1,4 +1,4 @@
-package GUI.game;
+package GUI;
 /* Project 3: Connect 4
  *  CS342 11am T, TH Lec
  *  This project is connect 4
@@ -9,7 +9,7 @@ package GUI.game;
  * */
 
 import coms.*;
-import coms.game.clientComThread;
+import coms.clientComThread;
 import logic.Globals;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import logic.game.clientGame;
+import logic.clientGame;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

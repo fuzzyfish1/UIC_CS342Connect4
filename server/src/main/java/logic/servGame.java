@@ -8,7 +8,7 @@
  * */
 
 
-package logic.server;
+package logic;
 
 import coms.CFourInfo;
 

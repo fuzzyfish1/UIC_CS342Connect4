@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id = "root2" styleClass="border" fx:controller = "GUI.server.startController">
+            fx:id = "root2" styleClass="border" fx:controller = "GUI.startController">
 
     <center><Text fx:id = "b1" text = "server"/></center>
     <left><Button fx:id = "b2" text = "Start" onAction="#serverThreadStart"/></left>

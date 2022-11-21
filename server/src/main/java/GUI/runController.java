@@ -1,4 +1,4 @@
-package GUI.server;
+package GUI;
 /* Project 3: Connect 4
  *  CS342 11am T, TH Lec
  *  This project is connect 4
@@ -8,7 +8,7 @@ package GUI.server;
  *  Initializes the server and any communications
  * */
 
-import coms.server.servThread;
+import coms.servThread;
 import logic.Globals;
 
 import java.net.URL;

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
-			fx:id = "root2" styleClass="border" fx:controller = "GUI.game.gameStartController">
+			fx:id = "root2" styleClass="border" fx:controller = "GUI.gameStartController">
 
 	<center><Text fx:id = "b1" text = "Gameer"/></center>
 	<left><Button fx:id = "b2" text = "Start" onAction="#gameThreadStart"/></left>

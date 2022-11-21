@@ -69,7 +69,7 @@ public class startSceneController implements Initializable {
 	public void gamerStart(ActionEvent e) throws IOException {
 
 		Parent root = FXMLLoader.load(getClass()
-				.getResource("/FXML/client/gameStart.fxml"));
+				.getResource("/FXML/gameStart.fxml"));
 
 		Scene gamerScene = new Scene(root, 500, 500);
 

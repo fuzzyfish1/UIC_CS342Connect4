@@ -1,7 +1,6 @@
-package logic.game;
+package logic;
 import coms.*;
-import coms.game.clientComThread;
-import logic.Globals;
+import coms.clientComThread;
 
 import java.io.IOException;
 

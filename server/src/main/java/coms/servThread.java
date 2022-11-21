@@ -6,9 +6,9 @@
  *  This is the Server Code that accepts new players
  *  and starts a game for players
  * */
-package coms.server;
+package coms;
 
-import logic.server.servGame;
+import logic.servGame;
 
 import java.io.*;
 import java.net.ServerSocket;

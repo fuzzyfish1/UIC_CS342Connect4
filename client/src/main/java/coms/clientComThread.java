@@ -5,9 +5,8 @@
  *  this is multiplayer
  *  The communication thread for clients to server
  * */
-package coms.game;
+package coms;
 
-import coms.CFourInfo;
 import logic.Globals;
 
 import java.io.IOException;
