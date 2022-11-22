@@ -41,10 +41,14 @@ public class gameScene implements Initializable {
 		pane.setHgap(10);
 		pane.setVgap(10);
 
-		clientComThread.getInstance().setCallback(e -> {
-			clientGame.getInstance().enemyMove(e);
-			updateScreen();
-		});
+		try {
+			clientComThread.getInstance().init(e -> {
+				clientGame.getInstance().enemyMove(e);
+				updateScreen();
+			});
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 
 		for (int r = 0; r < Globals.constants.height; r++) {
 			for (int c = 0; c < Globals.constants.width; c++) {
@@ -64,6 +68,8 @@ public class gameScene implements Initializable {
 				pane.add(button, c, r);
 			}
 		}
+
+
 
 		clientComThread.getInstance().start();
 

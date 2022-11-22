@@ -49,6 +49,8 @@ public class clientGame {
 		int col = info.getCol();
 
 		if (col == -1) {
+			System.out.println("First Move, counter Primed");
+
 			turnNum ++; // priming counter
 			return;
 		} else if (turnNum % 2 == 1) {

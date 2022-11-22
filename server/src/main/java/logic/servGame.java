@@ -53,8 +53,8 @@ public class servGame extends Thread {
 	public void run() {
 		try {
 
-			p1out.writeObject( new CFourInfo(-1, 0, 4)); // first turn signal
-			p2out.writeObject( new CFourInfo(-1, 0, 3)); // change scene
+			p1out.writeObject( new CFourInfo(-1, 0, 3)); // first turn signal
+			//p2out.writeObject( new CFourInfo(-1, 0, 3)); // change scene
 
 			a.accept("Sent CFourInfo to P1: col -1, P0, Status3");
 

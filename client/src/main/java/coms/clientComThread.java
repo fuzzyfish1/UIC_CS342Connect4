@@ -53,25 +53,18 @@ public class clientComThread extends Thread {
 
 		try {
 
-			System.out.println("bloop");
+
 			out = new ObjectOutputStream(connection.getOutputStream());
-			System.out.println("bleep");
 			in = new ObjectInputStream(connection.getInputStream());
-			System.out.println("blap");
+
 
 			while (true) {
 				numRecieved++;
 
-
 				CFourInfo message = (CFourInfo) in.readObject();
 
-
 				if (message != null) {
-					System.out.println("blap");
-					System.out.println(numRecieved);
 					callback.accept(message);
-					System.out.println("blap");
-					System.out.println(numRecieved);
 				}
 			}
 

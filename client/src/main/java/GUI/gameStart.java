@@ -49,81 +49,22 @@ public class gameStart implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 	}
 
-
-	public void runScene() {
-
-
-		try {
-			Parent root = FXMLLoader.load(gameStart.class.getResource("/FXML/gameScene.fxml"));
-
-			Scene s2 = new Scene(root, 500, 500);
-			s2.getStylesheets().add("/styles/style2.css");
-
-			logic.Globals.temp.primaryStage.setScene(s2);
-			logic.Globals.temp.primaryStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-
-	}
-
-
 	public void attemptConnect(ActionEvent e) throws IOException {
 
 		if (validatePort()) {
 
 			Globals.temp.port = Integer.parseInt(port.getText());
 
-			b2.setDisable(true);
-			port.setDisable(true);
+			root = FXMLLoader.load(getClass()
+					.getResource("/FXML/gameScene.fxml"));
 
-			b2.setVisible(false);
-			port.setDisable(false);
+			Scene s1 = new Scene(root, 500, 500);
 
-			centerText.setText(" LOADING ");
+			s1.getStylesheets().add("/styles/style2.css");
 
-			Consumer<CFourInfo> walmart = f -> {
-				Platform.runLater(() -> {
-
-					try {
-
-						FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/gameScene.fxml"));
-						Parent pane = loader.load(); //load view into parent
-						gameScene myctr = loader.getController();//get controller created by FXMLLoader
-
-						//myctr.setText();//use MyLoader class method for setText()
-						root.getScene().setRoot(pane);
-
-						//logic.Globals.temp.primaryStage.setScene(s2);
-						//logic.Globals.temp.primaryStage.show();
-
-						if (f.getStatus() == 4) {
-							clientGame.getInstance().turnNum = 1;
-						}
-					} catch (Exception g) {
-						g.printStackTrace();
-					}
-				});
-			};
-
-			try {
-
-				clientComThread.getInstance().init(walmart);
-				clientComThread.getInstance().start();
-
-			} catch (Exception f) {
-				f.printStackTrace();
-
-				b2.setDisable(false);
-				port.setDisable(false);
-
-				b2.setVisible(true);
-				port.setDisable(true);
-
-				centerText.setText("try again");
-			}
+			primaryStage.setTitle("Connect 4");
+			primaryStage.setScene(s1);
+			primaryStage.show();
 
 		} else {
 			port.setText("invalid port: ");
