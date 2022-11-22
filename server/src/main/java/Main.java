@@ -7,7 +7,7 @@
 *  GUI controller access to the primary stage
 * */
 
-import GUI.startSceneController;
+import GUI.startController;
 import logic.Globals;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,7 +24,7 @@ public class Main extends Application {
 
 			Globals.temp.primaryStage = primaryStage;
 
-			startSceneController x = new startSceneController();
+			startController x = new startController();
 			x.start();
 
 		} catch (Exception e) {

@@ -9,6 +9,9 @@ package GUI;
  * */
 
 import coms.servThread;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import logic.Globals;
 
 import java.net.URL;
@@ -20,10 +23,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
-
-// for start
 public class runController implements Initializable {
-    //static Stage primaryStage = null;
+
     @FXML
     public ListView scrolly;
 
@@ -35,17 +36,18 @@ public class runController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         Consumer<String> addToScrollable = f -> {
-            Text t = new Text();
 
-            t.setText(f);
-            scrolly.getItems().add(t);
+            Platform.runLater(() -> {
+                Text t = new Text();
+
+                t.setText(f);
+                scrolly.getItems().add(t);
+            });
         };
 
         servThread.getInstance().init(Globals.temp.port, addToScrollable);
         servThread.getInstance().start();
 
     }
-    //method so that the controller created for second view can update the text
-    //field with the text from the first vie
 
 }

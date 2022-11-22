@@ -23,6 +23,7 @@ public class clientComThread extends Thread {
 	ObjectOutputStream out;
 	Consumer<CFourInfo> callback;
 
+	static int numRecieved = 0;
 
 	private static clientComThread instance = null;
 
@@ -35,14 +36,15 @@ public class clientComThread extends Thread {
 		return instance;
 	}
 
-	public void init(int port, Consumer<CFourInfo> callback) throws IOException {
-		this.port = port;
+	public void setCallback(Consumer<CFourInfo> callback) {
+		this.callback = callback;
+	}
+
+	public void init(Consumer<CFourInfo> callback) throws IOException {
+		this.port = Globals.temp.port;
 		this.callback = callback;
 
 		connection = new Socket("localhost", Globals.temp.port);
-
-		out = new ObjectOutputStream(connection.getOutputStream());
-		in = new ObjectInputStream(connection.getInputStream());
 
 	}
 
@@ -51,12 +53,25 @@ public class clientComThread extends Thread {
 
 		try {
 
+			System.out.println("bloop");
+			out = new ObjectOutputStream(connection.getOutputStream());
+			System.out.println("bleep");
+			in = new ObjectInputStream(connection.getInputStream());
+			System.out.println("blap");
+
 			while (true) {
+				numRecieved++;
+
 
 				CFourInfo message = (CFourInfo) in.readObject();
 
+
 				if (message != null) {
+					System.out.println("blap");
+					System.out.println(numRecieved);
 					callback.accept(message);
+					System.out.println("blap");
+					System.out.println(numRecieved);
 				}
 			}
 

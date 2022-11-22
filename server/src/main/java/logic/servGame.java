@@ -34,21 +34,28 @@ public class servGame extends Thread {
 		this.p2 = s2;
 		this.a = a;
 
+		System.out.println("bloop");
 		p1In = new ObjectInputStream(p1.getInputStream());
+		p1out = new ObjectOutputStream(p1.getOutputStream());
+		System.out.println("bloop");
+
 		p2In = new ObjectInputStream(p2.getInputStream());
 
-		p1out = new ObjectOutputStream(p1.getOutputStream());
+		System.out.println("bloop");
+
+
 		p2out = new ObjectOutputStream(p2.getOutputStream());
 
 		a.accept("ServGame Started");
 	}
 
-
 	@Override
 	public void run() {
 		try {
 
-			p1out.writeObject( new CFourInfo(-1, 0, 3));
+			p1out.writeObject( new CFourInfo(-1, 0, 4)); // first turn signal
+			p2out.writeObject( new CFourInfo(-1, 0, 3)); // change scene
+
 			a.accept("Sent CFourInfo to P1: col -1, P0, Status3");
 
 			while (true) {

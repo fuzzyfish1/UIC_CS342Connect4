@@ -13,7 +13,7 @@ public class clientGame {
 	// x y
 	public int[][] board = new int[Globals.constants.width][Globals.constants.height];
 
-	int turnNum = 0; // make move on odd nums
+	public int turnNum = 0; // make move on odd nums
 	private static clientGame instance = null;
 
 	private clientGame() {

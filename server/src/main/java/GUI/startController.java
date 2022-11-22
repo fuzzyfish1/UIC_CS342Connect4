@@ -48,7 +48,7 @@ public class startController implements Initializable {
                 Globals.temp.port = Integer.parseInt(port.getText());
 
                 Parent root = FXMLLoader.load(getClass()
-                        .getResource("/FXML/server/serverRun.fxml"));
+                        .getResource("/FXML/serverRun.fxml"));
 
                 Scene s1 = new Scene(root, 500, 500);
                 s1.getStylesheets().add("/styles/style2.css");
@@ -68,6 +68,18 @@ public class startController implements Initializable {
 	public boolean validatePort() {
 		return Integer.parseInt(port.getText()) > 1024;
 	}
+
+    public void start() throws IOException {
+        Parent root = FXMLLoader.load(getClass()
+                .getResource("/FXML/serverStart.fxml"));
+
+        Scene s1 = new Scene(root, 500, 500);
+        s1.getStylesheets().add("/styles/style2.css");
+
+        primaryStage.setTitle("Connect 4 Server");
+        primaryStage.setScene(s1);
+        primaryStage.show();
+    }
 
 
 }
