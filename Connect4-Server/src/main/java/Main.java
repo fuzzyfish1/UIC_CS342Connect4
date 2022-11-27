@@ -15,12 +15,12 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	public static void main(String[] args) {
-		launch(args);
+		//launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		try {
+		/*try {
 
 			Globals.temp.primaryStage = primaryStage;
 
@@ -30,7 +30,8 @@ public class Main extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
-		}
+		}*/
+		System.out.println("Server Started");
 	}
 
 }

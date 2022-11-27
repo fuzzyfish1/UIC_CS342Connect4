@@ -16,7 +16,6 @@ import java.net.Socket;
 import java.util.function.Consumer;
 
 public class clientComThread extends Thread {
-
 	int port;
 	Socket connection;
 	ObjectInputStream in;
@@ -53,10 +52,8 @@ public class clientComThread extends Thread {
 
 		try {
 
-
 			out = new ObjectOutputStream(connection.getOutputStream());
 			in = new ObjectInputStream(connection.getInputStream());
-
 
 			while (true) {
 				numRecieved++;
