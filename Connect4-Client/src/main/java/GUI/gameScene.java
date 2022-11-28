@@ -24,11 +24,19 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 public class gameScene implements Initializable {
 
 	@FXML
 	GridPane pane;
+
+	@FXML
+	Text moveIndicator;
+
+	@FXML
+	Text errorBox;
+
 
 	public gameScene() {
 		super();
@@ -69,10 +77,7 @@ public class gameScene implements Initializable {
 			}
 		}
 
-
-
 		clientComThread.getInstance().start();
-
 		updateScreen();
 	}
 
@@ -83,9 +88,16 @@ public class gameScene implements Initializable {
 
 		for (Node child : childrens) {
 
-			GameButton i = (GameButton) child;
-			i.setValue(board[i.c][i.r]);
-
+			if (child instanceof GameButton) {
+				GameButton i = (GameButton) child;
+				i.setValue(board[i.c][i.r]);
+			}
 		}
+
+		moveIndicator.setText(
+				clientGame.getInstance().turnNum % 2 == 0 ?
+						"Nout OUr move" : "make move"
+		);
+		errorBox.setText(clientGame.getInstance().errorMsg);
 	}
 }

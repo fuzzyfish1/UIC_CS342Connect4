@@ -1,4 +1,5 @@
 package logic;
+
 import commonCode.CFourInfo;
 import commonCode.status;
 import coms.clientComThread;
@@ -9,13 +10,12 @@ public class clientGame {
 
 	// TODO: put these in constants and verify
 
+	private static clientGame instance = null;
 	// 0, 0 is bottom left of board
 	// use 1 for our pieces, 0 for empty, 2 for enemy
 	// x y
 	public int[][] board = new int[Globals.constants.width][Globals.constants.height];
-
 	public int turnNum = 0; // make move on odd nums
-	private static clientGame instance = null;
 
 	private clientGame() {
 		for (int x = 0; x < Globals.constants.width; x++) {
@@ -32,6 +32,8 @@ public class clientGame {
 
 		return instance;
 	}
+
+	public String errorMsg = "";
 
 	public void printBoard() {
 		// print out new board
@@ -50,21 +52,25 @@ public class clientGame {
 		int col = info.getCol();
 
 		if (info.getStatus() == status.START) {
+			errorMsg = "First Move, counter Primed";
 			System.out.println("First Move, counter Primed");
-			turnNum ++; // priming counter
+			turnNum++; // priming counter
 			return;
 		} else if (turnNum % 2 == 1) {
+			errorMsg = "Not their Move";
 			System.out.println("Not their Move");
 			return;
 		}
 
-		turnNum ++;
+		turnNum++;
 
 		if (info.getStatus() == status.WIN) {
 			System.out.println("enemy Wins");
 		} else if (info.getStatus() == status.TIE) {
 			System.out.println("We tie");
 		}
+
+		errorMsg = "No Err";
 
 		for (int y = 0; y < Globals.constants.height; y++) {
 			if (board[col][y] == 0) {
@@ -77,31 +83,33 @@ public class clientGame {
 
 	}
 
-	public void makeMove(int col) throws IOException {
+	public void makeMove(int col) {
 
-		System.out.println("jklsdfjklsdfjklsdfjklsdfjksdfjklsdfjklfa;slkdfjasld fkjakl;sdk fja;sd flkjasd; fklja sd ;lfkjas;dlfkajsdf;lkjasd f;kjCOL NUM: ");
 		System.out.println(col);
 
 		if (turnNum % 2 == 0) {
+			errorMsg = "Not Our Move";
 			System.out.println("Not Our Move");
 			return;
 		}
-
-		turnNum ++;
-
 		System.out.println("making Move: ");
 
-		// read the value of user input for col
-		//int col = Integer.parseInt(reader.readLine());
 		int player = 0;
 
 		// drop piece into slot
-		for (int i = 0; i < Globals.constants.height; i++) {
-			if (board[col][i] == 0) {
+		for (int i = 0;; i++) {
+			if (i == Globals.constants.height) {
+				errorMsg = "INVALID MOVE";
+				System.out.println("INVALID MOVE");
+				return;
+			} else if (board[col][i] == 0) {
 				board[col][i] = 1;
 				break;
 			}
 		}
+
+		errorMsg = "No Err";
+		turnNum++;
 
 		status status = this.checkWin();
 
@@ -117,18 +125,24 @@ public class clientGame {
 		int xEnd = spotX + 3 * x;
 		int yEnd = spotY + 3 * y;
 
-		if (xEnd > Globals.constants.width || xEnd < 0 || yEnd > Globals.constants.height || yEnd < 0) {
+		if (xEnd >= Globals.constants.width || xEnd < 0 || yEnd >= Globals.constants.height || yEnd < 0) {
 			return false;
 		}
 
-		for (int i = 0; i < 4; i++) {
+		try {
+			for (int i = 0; i < 4; i++) {
 
-			if (board[spotX][spotY] != 1) {
-				return false;
+				if (board[spotX][spotY] != 1) {
+					return false;
+				}
+
+				spotX += x;
+				spotY += y;
 			}
-
-			spotX += x;
-			spotY += y;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(spotX);
+			System.out.println(spotY);
 		}
 
 		return true;
@@ -139,22 +153,22 @@ public class clientGame {
 		int count = 0;
 		boolean win = false;
 
-		for (int x = 0; x < Globals.constants.width; x ++) {
+		for (int x = 0; x < Globals.constants.width; x++) {
 			for (int y = 0; y < Globals.constants.height; y++) {
 
 				if (board[x][y] == 1) {
 
 					win |= checkDirection(0, 1, x, y);
 					win |= checkDirection(1, 0, x, y);
-					win |= checkDirection(1,1, x, y);
-					win |= checkDirection(1, -1, x,y);
+					win |= checkDirection(1, 1, x, y);
+					win |= checkDirection(1, -1, x, y);
 
-					if (win == true) {
+					if (win) {
 						System.out.println("we Wins");
 						return status.WIN;
 					}
 					count++;
-				} else if ( board[x][y] == 2) {
+				} else if (board[x][y] == 2) {
 					count++;
 				}
 			}

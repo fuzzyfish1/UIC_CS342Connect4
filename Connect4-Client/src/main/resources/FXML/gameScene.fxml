@@ -2,8 +2,15 @@
 
 <?import javafx.scene.layout.GridPane?>
 
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1"
-          fx:id = "pane" styleClass="border" fx:controller = "GUI.gameScene">
+		  fx:id = "pane" styleClass="border" fx:controller = "GUI.gameScene">
+
+	<VBox GridPane.columnIndex="8" GridPane.rowIndex="8">
+		<Text fx:id="moveIndicator" ></Text>
+		<Text fx:id="errorBox" ></Text>
+	</VBox>
 
 </GridPane>
 
