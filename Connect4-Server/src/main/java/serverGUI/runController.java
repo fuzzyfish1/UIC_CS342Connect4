@@ -1,4 +1,4 @@
-package GUI;
+package serverGUI;
 /* Project 3: Connect 4
  *  CS342 11am T, TH Lec
  *  This project is connect 4
@@ -8,11 +8,8 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
-import coms.servThread;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import logic.Globals;
+import serverLogic.Globals;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
+import serverLogic.servThread;
 
 public class runController implements Initializable {
 
@@ -45,7 +43,9 @@ public class runController implements Initializable {
             });
         };
 
-        servThread.getInstance().init(Globals.temp.port, addToScrollable);
+        Globals.temp.addString = addToScrollable;
+
+        servThread.getInstance().init(Globals.temp.port);
         servThread.getInstance().start();
 
     }

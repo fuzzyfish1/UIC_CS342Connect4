@@ -1,4 +1,4 @@
-package coms;
+package commonCode;
 
 import java.io.Serializable;
 
@@ -18,9 +18,9 @@ public class CFourInfo implements Serializable {
 
 	int col;
 	int player;
-	int status;
+	status status;
 
-	public CFourInfo(int col, int player, int status) {
+	public CFourInfo(int col, int player, status status) {
 		this.col = col;
 		this.player = player;
 		this.status = status;
@@ -34,7 +34,7 @@ public class CFourInfo implements Serializable {
 		return player;
 	}
 
-	public int getStatus() {
+	public status getStatus() {
 		return status;
 	}
 }

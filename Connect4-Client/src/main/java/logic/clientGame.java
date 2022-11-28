@@ -1,5 +1,6 @@
 package logic;
-import coms.*;
+import commonCode.CFourInfo;
+import commonCode.status;
 import coms.clientComThread;
 
 import java.io.IOException;
@@ -48,9 +49,8 @@ public class clientGame {
 
 		int col = info.getCol();
 
-		if (col == -1) {
+		if (info.getStatus() == status.START) {
 			System.out.println("First Move, counter Primed");
-
 			turnNum ++; // priming counter
 			return;
 		} else if (turnNum % 2 == 1) {
@@ -60,9 +60,9 @@ public class clientGame {
 
 		turnNum ++;
 
-		if (info.getStatus() == 1) {
+		if (info.getStatus() == status.WIN) {
 			System.out.println("enemy Wins");
-		} else if (info.getStatus() == 2) {
+		} else if (info.getStatus() == status.TIE) {
 			System.out.println("We tie");
 		}
 
@@ -103,7 +103,7 @@ public class clientGame {
 			}
 		}
 
-		int status = this.checkWin();
+		status status = this.checkWin();
 
 		clientComThread.getInstance().send(
 				new CFourInfo(col, player, status)
@@ -134,12 +134,7 @@ public class clientGame {
 		return true;
 	}
 
-	/*
-	* 1 = client wins
-	* 2 = tie
-	* 3 = no win/loss yet
-	* */
-	public int checkWin() {
+	public status checkWin() {
 
 		int count = 0;
 		boolean win = false;
@@ -156,7 +151,7 @@ public class clientGame {
 
 					if (win == true) {
 						System.out.println("we Wins");
-						return 1;
+						return status.WIN;
 					}
 					count++;
 				} else if ( board[x][y] == 2) {
@@ -167,9 +162,9 @@ public class clientGame {
 
 		if (count == Globals.constants.height * Globals.constants.width) {
 			System.out.println("we tied");
-			return 2;
+			return status.TIE;
 		} else {
-			return 3;
+			return status.RUNNING;
 		}
 	}
 }

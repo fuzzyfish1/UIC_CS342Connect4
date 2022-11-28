@@ -7,8 +7,8 @@
 *  GUI controller access to the primary stage
 * */
 
-import GUI.startController;
-import logic.Globals;
+import serverGUI.startController;
+import serverLogic.Globals;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -19,11 +19,11 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) {
+
 		try {
 
 			Globals.temp.primaryStage = primaryStage;
-
 			startController x = new startController();
 			x.start();
 
@@ -31,7 +31,5 @@ public class Main extends Application {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 	}
-
 }

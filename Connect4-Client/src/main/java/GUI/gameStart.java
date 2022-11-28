@@ -8,9 +8,6 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
-import coms.CFourInfo;
-import coms.clientComThread;
-import javafx.application.Platform;
 import javafx.scene.text.Text;
 import logic.Globals;
 import javafx.event.ActionEvent;
@@ -21,12 +18,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import logic.clientGame;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 import static logic.Globals.temp.primaryStage;
 

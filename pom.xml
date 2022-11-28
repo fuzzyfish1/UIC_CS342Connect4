@@ -19,9 +19,12 @@
 	</properties>
 
 	<modules>
+		<module>lib</module>
 		<module>Connect4-Client</module>
 		<module>Connect4-Server</module>
 	</modules>
+
+
 
 <!--	<build>-->
 <!--		<plugins>-->

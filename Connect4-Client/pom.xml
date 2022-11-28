@@ -24,6 +24,15 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>CS342Fall22</groupId>
+			<artifactId>lib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+<!--			<type>jar</type>-->
+		</dependency>
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -43,6 +52,8 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>12</version>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>

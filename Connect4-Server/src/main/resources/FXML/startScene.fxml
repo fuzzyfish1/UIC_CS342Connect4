@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="vbox" fx:controller = "GUI.startSceneController"
+<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="vbox" fx:controller = "serverGUI.startController"
 			fx:id = "root">
 
 	<Button fx:id = "serverButton" text = "server" onAction = "#serverStart"/>

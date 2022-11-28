@@ -7,24 +7,20 @@
  * */
 package coms;
 
+import commonCode.CFourInfo;
+import commonCode.comThread;
 import logic.Globals;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public class clientComThread extends Thread {
-	int port;
-	Socket connection;
-	ObjectInputStream in;
-	ObjectOutputStream out;
-	Consumer<CFourInfo> callback;
+public class clientComThread extends comThread {
 
-	static int numRecieved = 0;
-
+	private int port;
 	private static clientComThread instance = null;
+
+	private clientComThread() {}
 
 	public static clientComThread getInstance() {
 
@@ -35,49 +31,11 @@ public class clientComThread extends Thread {
 		return instance;
 	}
 
-	public void setCallback(Consumer<CFourInfo> callback) {
-		this.callback = callback;
-	}
-
 	public void init(Consumer<CFourInfo> callback) throws IOException {
+
+		this.setCallback(callback);
 		this.port = Globals.temp.port;
-		this.callback = callback;
+		this.setSocket(new Socket("localhost", this.port));
 
-		connection = new Socket("localhost", Globals.temp.port);
-
-	}
-
-	@Override
-	public void run() {
-
-		try {
-
-			out = new ObjectOutputStream(connection.getOutputStream());
-			in = new ObjectInputStream(connection.getInputStream());
-
-			while (true) {
-				numRecieved++;
-
-				CFourInfo message = (CFourInfo) in.readObject();
-
-				if (message != null) {
-					callback.accept(message);
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void send(CFourInfo data) {
-		try {
-
-			System.out.println(" sending:  ");
-			out.writeObject(data);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
