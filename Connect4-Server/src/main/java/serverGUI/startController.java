@@ -40,7 +40,7 @@ public class startController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
 
-	public void serverThreadStart (ActionEvent e) throws IOException {
+	public void serverThreadStart (ActionEvent e) {
 
         if (validatePort()) {
             try {
@@ -80,6 +80,4 @@ public class startController implements Initializable {
         primaryStage.setScene(s1);
         primaryStage.show();
     }
-
-
 }

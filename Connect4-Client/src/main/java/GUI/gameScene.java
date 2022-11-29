@@ -8,14 +8,17 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
-import coms.*;
+import commonCode.status;
 import coms.clientComThread;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import logic.Globals;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 import logic.clientGame;
 import javafx.collections.ObservableList;
@@ -25,6 +28,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+
+import static logic.Globals.temp.primaryStage;
 
 public class gameScene implements Initializable {
 
@@ -36,7 +41,6 @@ public class gameScene implements Initializable {
 
 	@FXML
 	Text errorBox;
-
 
 	public gameScene() {
 		super();
@@ -50,7 +54,7 @@ public class gameScene implements Initializable {
 		pane.setVgap(10);
 
 		try {
-			clientComThread.getInstance().init(e -> {
+			clientComThread.getInstance().setCallback(e -> {
 				clientGame.getInstance().enemyMove(e);
 				updateScreen();
 			});
@@ -77,7 +81,7 @@ public class gameScene implements Initializable {
 			}
 		}
 
-		clientComThread.getInstance().start();
+
 		updateScreen();
 	}
 
@@ -85,6 +89,35 @@ public class gameScene implements Initializable {
 	public void updateScreen() {
 		ObservableList<Node> childrens = pane.getChildren();
 		int[][] board = clientGame.getInstance().board;
+
+		if (clientGame.getInstance().currStatus != status.RUNNING) {
+			for (Node child : childrens) {
+				if (child instanceof GameButton) {
+					((GameButton) child).setOnAction( e -> {
+						System.out.println(" button pushy");
+					});
+				}
+			}
+
+
+			delay( 3000, () -> {
+				try {
+					BorderPane root = FXMLLoader.load(getClass()
+							.getResource("/FXML/endScene.fxml"));
+
+					Scene s1 = new Scene(root, 500, 500);
+
+					s1.getStylesheets().add("/styles/style2.css");
+
+					primaryStage.setTitle("Connect 4");
+					primaryStage.setScene(s1);
+					primaryStage.show();
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
 
 		for (Node child : childrens) {
 
@@ -96,8 +129,23 @@ public class gameScene implements Initializable {
 
 		moveIndicator.setText(
 				clientGame.getInstance().turnNum % 2 == 0 ?
-						"Nout OUr move" : "make move"
+						"Waiting for Enemy Move" : "It is now your Turn"
 		);
+
 		errorBox.setText(clientGame.getInstance().errorMsg);
+
+	}
+
+	public static void delay(long millis, Runnable continuation) {
+		Task<Void> sleeper = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				try { Thread.sleep(millis); }
+				catch (InterruptedException e) { }
+				return null;
+			}
+		};
+		sleeper.setOnSucceeded(event -> continuation.run());
+		new Thread(sleeper).start();
 	}
 }

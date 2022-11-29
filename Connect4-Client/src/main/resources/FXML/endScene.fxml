@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-			xmlns:fx="http://javafx.com/fxml"
-			fx:controller="FXML.EndScene"
-			prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+			fx:id = "root" styleClass="border" fx:controller = "GUI.EndScene">
 
-</AnchorPane>
+	<center><Text fx:id = "centerText" text = "Gameer"/></center>
+	<left><Button fx:id = "b1" text = "Rematch" onAction="#reset"/></left>
+	<right><Button fx:id = "b2" text = "Quit" onAction="#quit"/></right>
+
+</BorderPane>

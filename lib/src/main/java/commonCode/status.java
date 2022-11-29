@@ -2,5 +2,5 @@ package commonCode;
 
 public enum status {
 
-	  WIN, LOSE, TIE, RUNNING, START
+	  WIN, LOSE, TIE, RUNNING, START, WAITING
 }

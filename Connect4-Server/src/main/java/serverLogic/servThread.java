@@ -8,6 +8,8 @@
  * */
 package serverLogic;
 
+import commonCode.CFourInfo;
+import commonCode.status;
 import serverComs.serverComThread;
 import serverLogic.Globals;
 import serverLogic.servGame;
@@ -47,17 +49,21 @@ public class servThread extends Thread {
 	public void run() {
 
 		try {
-			Socket temp = serverSocket.accept();
-			serverComThread p1 = new serverComThread(temp, c -> {});
-			Globals.temp.addString.accept("P1: " + temp.getInetAddress() + ":" + temp.getLocalPort());
+			while (true) {
+				Socket temp = serverSocket.accept();
+				serverComThread p1 = new serverComThread(temp, c -> {});
 
-			temp = serverSocket.accept();
-			serverComThread p2 = new serverComThread(temp, c -> {});
-			Globals.temp.addString.accept("P1: " + temp.getInetAddress() + ":" + temp.getLocalPort());
+				p1.send(new CFourInfo(
+						-1, 0, status.WAITING
+				));
 
-			servGame g = new servGame();
-			g.init(p1, p2);
-			g.start();
+				temp = serverSocket.accept();
+				serverComThread p2 = new serverComThread(temp, c -> {});
+
+				servGame g = new servGame();
+				g.init(p1, p2);
+				g.start();
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

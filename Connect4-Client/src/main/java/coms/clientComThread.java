@@ -9,7 +9,9 @@ package coms;
 
 import commonCode.CFourInfo;
 import commonCode.comThread;
+import commonCode.status;
 import logic.Globals;
+import logic.clientGame;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -31,11 +33,16 @@ public class clientComThread extends comThread {
 		return instance;
 	}
 
-	public void init(Consumer<CFourInfo> callback) throws IOException {
+	public void init(Consumer<CFourInfo> callback) throws Exception {
 
+		clientGame.getInstance().currStatus = status.RUNNING;
 		this.setCallback(callback);
 		this.port = Globals.temp.port;
 		this.setSocket(new Socket("localhost", this.port));
+
+		super.init();
+
+		this.start();
 
 	}
 }

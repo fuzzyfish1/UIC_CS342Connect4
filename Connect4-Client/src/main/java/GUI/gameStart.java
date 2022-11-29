@@ -8,7 +8,12 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
+import commonCode.status;
+import coms.clientComThread;
+import javafx.application.Platform;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+
 import logic.Globals;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import logic.clientGame;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,16 +56,24 @@ public class gameStart implements Initializable {
 
 			Globals.temp.port = Integer.parseInt(port.getText());
 
-			root = FXMLLoader.load(getClass()
-					.getResource("/FXML/gameScene.fxml"));
+			try {
 
-			Scene s1 = new Scene(root, 500, 500);
+				clientComThread.getInstance().init(info -> {
 
-			s1.getStylesheets().add("/styles/style2.css");
+					if (info.getStatus() == status.WAITING) {
+						// show some waiting
+						clientGame.getInstance().turnNum++;
+						centerText.setText("Waiting for enemy to join server");
+					} else if (info.getStatus() == status.START) {
 
-			primaryStage.setTitle("Connect 4");
-			primaryStage.setScene(s1);
-			primaryStage.show();
+						changeScene();
+					}
+				});
+
+			} catch (Exception f) {
+				f.printStackTrace();
+			}
+
 
 		} else {
 			port.setText("invalid port: ");
@@ -82,6 +96,47 @@ public class gameStart implements Initializable {
 		primaryStage.setTitle("Connect 4");
 		primaryStage.setScene(s1);
 		primaryStage.show();
+
+	}
+
+	public void changeScene() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+
+				try {
+					GridPane root2 = FXMLLoader.load(getClass()
+							.getResource("/FXML/gameScene.fxml"));
+
+					root2.getStylesheets().add("/styles/style2.css");//set style
+
+					Scene s1 = new Scene(root2, 500, 500);
+
+					s1.getStylesheets().add("/styles/style2.css");
+
+					primaryStage.setTitle("Connect 4");
+					primaryStage.setScene(s1);
+					primaryStage.show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+
+//			System.out.println("asdklfa;sdlkfj;asdjkf");
+//			Parent pane = FXMLLoader.load(getClass()
+//					.getResource("/FXML/gameScene.fxml"));
+//
+//			System.out.println("asd;fklja;sdklfja;sdfjkl");
+//
+//			Scene s1 = new Scene(pane, 500, 500);
+//
+//			s1.getStylesheets().add("/styles/style2.css");
+//
+//			primaryStage.setTitle("Connect 4");
+//			primaryStage.setScene(s1);
 
 	}
 }

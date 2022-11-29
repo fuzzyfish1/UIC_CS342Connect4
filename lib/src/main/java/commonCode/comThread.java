@@ -15,7 +15,9 @@ public abstract class comThread extends Thread {
 	private Consumer<CFourInfo> callback = c -> {
 		throw new RuntimeException("comThread callback not set");
 	};
-
+	private Consumer<CFourInfo> sendCallback = c->{
+		System.out.println("sending Stuff");
+	};
 	private int numReceived = 0;
 
 	public void setCallback(Consumer<CFourInfo> callback) {
@@ -42,14 +44,26 @@ public abstract class comThread extends Thread {
 		this.flipped = true;
 	}
 
+	public void setSendCallback(Consumer<CFourInfo> callback) {
+		this.sendCallback = callback;
+	}
+
+	public void init() throws Exception {
+
+		if (this.flipped) {
+			out = new ObjectOutputStream(connection.getOutputStream());
+			in = new ObjectInputStream(connection.getInputStream());
+		} else {
+			in = new ObjectInputStream(connection.getInputStream());
+			out = new ObjectOutputStream(connection.getOutputStream());
+		}
+
+	}
+
 	@Override
 	public void run() {
 
 		try {
-
-			out = new ObjectOutputStream(connection.getOutputStream());
-			in = new ObjectInputStream(connection.getInputStream());
-
 			while (true) {
 				numReceived++;
 
@@ -67,7 +81,7 @@ public abstract class comThread extends Thread {
 
 	public void send(CFourInfo data) {
 		try {
-			System.out.println(" sending:  ");
+			sendCallback.accept(data);
 			out.writeObject(data);
 
 		} catch (IOException e) {

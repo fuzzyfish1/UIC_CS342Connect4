@@ -34,6 +34,7 @@ public class EndScene implements Initializable {
 	public Button b2;
 	@FXML
 	Text centerText;
+	@FXML
 	Parent root;
 
 	public EndScene() {
@@ -42,46 +43,26 @@ public class EndScene implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+
 	}
 
-	public void attemptConnect(ActionEvent e) throws IOException {
-
-		if (validatePort()) {
-
-			Globals.temp.port = Integer.parseInt(port.getText());
-
-			root = FXMLLoader.load(getClass()
-					.getResource("/FXML/gameScene.fxml"));
-
-			Scene s1 = new Scene(root, 500, 500);
-
-			s1.getStylesheets().add("/styles/style2.css");
-
-			primaryStage.setTitle("Connect 4");
-			primaryStage.setScene(s1);
-			primaryStage.show();
-
-		} else {
-			port.setText("invalid port: ");
+	public void reset(ActionEvent e) {
+		try {
+			gameStart x = new gameStart();
+			x.start();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+
 	}
 
-	public boolean validatePort() {
-		return Integer.parseInt(port.getText()) > 1024;
+	public void quit(ActionEvent e) {
+		System.exit(0);
 	}
 
 	public void start() throws IOException {
 
-		root = FXMLLoader.load(getClass()
-				.getResource("/FXML/gameStart.fxml"));
-
-		Scene s1 = new Scene(root, 500, 500);
-
-		s1.getStylesheets().add("/styles/style2.css");
-
-		primaryStage.setTitle("Connect 4");
-		primaryStage.setScene(s1);
-		primaryStage.show();
 
 	}
 }

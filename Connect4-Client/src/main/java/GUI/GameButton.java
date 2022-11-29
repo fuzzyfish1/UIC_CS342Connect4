@@ -21,9 +21,13 @@ public class GameButton extends Button {
 		if (value == 0) {
 			setStyle("-fx-background-color: #fcaf38");
 		} else if (value == 1) {
-			setStyle("-fx-background-color: #15fd05");
+			setStyle("-fx-background-color: #0ba103");
 		} else if (value == 2) {
-			setStyle("-fx-background-color: #ff0000");
+			setStyle("-fx-background-color: #9a0000");
+		} else if (value == 3) {
+			setStyle("-fx-background-color: #15fd05");
+		} else if (value == 4) {
+			setStyle("-fx-background-color: #f80000");
 		}
 	}
 }

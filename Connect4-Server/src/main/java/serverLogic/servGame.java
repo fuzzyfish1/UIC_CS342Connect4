@@ -29,6 +29,7 @@ public class servGame extends Thread {
 
 	@Override
 	public void run() {
+
 		try {
 
 			p1.setCallback(c -> {
@@ -41,8 +42,10 @@ public class servGame extends Thread {
 				p1.send(c);
 			});
 
-			p1.send(new CFourInfo(-1, 0, status.START)); // first turn signal
-			Globals.temp.addString.accept("Sent CFourInfo to P1: col -1, P0, Status START");
+			p1.send(new CFourInfo(-1, 0, status.START));
+			p2.send(new CFourInfo(-1, 0, status.START));
+			// first turn signal
+			//Globals.temp.addString.accept("Sent CFourInfo to P1: col -1, P0, Status START");
 
 		} catch (Exception e) {
 			e.printStackTrace();
