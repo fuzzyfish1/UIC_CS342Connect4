@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import logic.clientGame;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +50,9 @@ public class EndScene implements Initializable {
 
 	public void reset(ActionEvent e) {
 		try {
+			clientGame.getInstance().numGames++;
 			gameStart x = new gameStart();
+			//x.startNew();
 			x.start();
 		} catch (Exception ex) {
 			ex.printStackTrace();

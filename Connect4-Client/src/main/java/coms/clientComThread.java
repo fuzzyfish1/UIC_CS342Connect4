@@ -38,10 +38,12 @@ public class clientComThread extends comThread {
 		clientGame.getInstance().currStatus = status.RUNNING;
 		this.setCallback(callback);
 		this.port = Globals.temp.port;
-		this.setSocket(new Socket("localhost", this.port));
+
+		if (!this.isAlive()) {
+			this.setSocket(new Socket("localhost", this.port));
+		}
 
 		super.init();
-
 		this.start();
 
 	}

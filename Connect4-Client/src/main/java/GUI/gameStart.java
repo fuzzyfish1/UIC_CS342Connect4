@@ -48,16 +48,33 @@ public class gameStart implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		if (clientGame.getInstance().numGames > 0 ) {
+			clientGame.getInstance().reset();
+			clientGame.getInstance().turnNum++;
+
+			centerText.setText("Waiting for enemy to join server");
+
+			clientComThread.getInstance().setCallback(info -> {
+
+				if (info.getStatus() == status.START) {
+					changeScene();
+				}
+			});
+
+			b2.setDisable(true);
+		}
 	}
 
-	public void attemptConnect(ActionEvent e) throws IOException {
+	public void attemptConnect(ActionEvent e) {
+
 
 		if (validatePort()) {
 
 			Globals.temp.port = Integer.parseInt(port.getText());
 
 			try {
-
+				b2.setVisible(false);
 				clientComThread.getInstance().init(info -> {
 
 					if (info.getStatus() == status.WAITING) {
@@ -76,6 +93,7 @@ public class gameStart implements Initializable {
 
 
 		} else {
+			b2.setVisible(true);
 			port.setText("invalid port: ");
 		}
 	}

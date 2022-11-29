@@ -6,22 +6,33 @@ import coms.clientComThread;
 
 public class clientGame {
 
+	public int numGames = 0;
 	private static clientGame instance = null;
 	// 0, 0 is bottom left of board
 	// use 1 for our pieces, 0 for empty, 2 for enemy
 	// x y
 	public int[][] board = new int[Globals.constants.width][Globals.constants.height];
-	public int turnNum = 0; // make move on odd nums
+	public int turnNum; // make move on odd nums
 
 	private clientGame() {
+		reset();
+	}
+
+	public void reset() {
+		currStatus = status.START;
+
 		for (int x = 0; x < Globals.constants.width; x++) {
 			for (int y = 0; y < board[0].length; y++) {
 				board[x][y] = 0;
 			}
 		}
+
+		turnNum = 0;
+		errorMsg = "";
+
 	}
 
-	public status currStatus = status.START;
+	public status currStatus;
 
 	public static clientGame getInstance() {
 		if (instance == null) {
@@ -31,7 +42,7 @@ public class clientGame {
 		return instance;
 	}
 
-	public String errorMsg = "";
+	public String errorMsg;
 
 	public void printBoard() {
 		// print out new board
