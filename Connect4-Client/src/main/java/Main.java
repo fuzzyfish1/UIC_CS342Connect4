@@ -8,6 +8,7 @@
 * */
 
 import GUI.gameStart;
+import coms.clientComThread;
 import logic.Globals;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -21,6 +22,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) { // removed a throws, we have a try catch it is unclean
 		try {
+			clientComThread.getInstance().setCallback(c-> {
+				System.out.println("SENDING STUFF");
+				System.out.println(c.getStatus());
+			});
 
 			Globals.temp.primaryStage = primaryStage;
 

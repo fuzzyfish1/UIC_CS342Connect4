@@ -17,14 +17,17 @@ import serverLogic.servGame;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
-public class servThread extends Thread {
+public class servThread {
 
 	private static servThread instance = null;
 	int port;
-	ServerSocket serverSocket;
+	Queue<serverComThread> playerQueue = new LinkedList<>();
 
-	//Queue<Socket> playerQueue;
+	serverComThread waitingDude;
 
 	public static servThread getInstance() {
 
@@ -36,82 +39,37 @@ public class servThread extends Thread {
 	}
 
 	public void init(int port) {
-		this.port = port;
-
-		try {
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		playerAccThread.getInstance().init(port);
+		playerAccThread.getInstance().start();
 	}
 
-	@Override
-	public void run() {
+	public void processQueue() {
+		while (!playerQueue.isEmpty()) {
 
-		serverComThread p1 = null, p2 = null;
+			if (waitingDude == null && !playerQueue.isEmpty()) {
+				System.out.println(waitingDude);
+				waitingDude = playerQueue.poll();
+				waitingDude.send(new CFourInfo(-1, 0, status.WAITING));
 
+			} else if (!playerQueue.isEmpty()) {
 
-		while (true) {
-
-			try {
-
-				// if one is not alive send the other the wait command
-
-				getActivePlayer(p1);
-				p1.send(new CFourInfo(-1, 0, status.WAITING));
-
-				getActivePlayer(p2);
+				System.out.println(waitingDude);
+				System.out.println("STARTING GAME");
 
 				servGame g = new servGame();
-				g.init(p1, p2);
+
+				g.init(waitingDude, playerQueue.poll());
 				g.start();
-			} catch (Exception e) {
-				e.printStackTrace();
+				waitingDude = null;
 			}
 
+			System.out.println(waitingDude);
+			System.out.println(playerQueue.size());
+
+
 		}
-		/*
-		try {
-			while (true) {
-				Socket temp = serverSocket.accept();
-				p1 = new serverComThread(temp, c -> {});
-
-				p1.send(new CFourInfo(-1, 0, status.WAITING));
-
-				temp = serverSocket.accept();
-				p2 = new serverComThread(temp, c -> {});
-
-				servGame g = new servGame();
-				g.init(p1, p2);
-				g.start();
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("This should hopefully try and see if the system");
-
-			if (p1.get)
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-*/
-
 	}
 
-	public void getActivePlayer(serverComThread player) {
 
-		while (!player.isAlive()) {
 
-			try {
-
-				Socket temp = serverSocket.accept();
-				player = new serverComThread(temp, c -> {});
-
-				break;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }

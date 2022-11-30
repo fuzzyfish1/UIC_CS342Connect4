@@ -14,7 +14,8 @@ import commonCode.CFourInfo;
 import commonCode.status;
 import serverComs.serverComThread;
 
-import java.net.Socket;
+import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 public class servGame extends Thread {
 
@@ -25,6 +26,36 @@ public class servGame extends Thread {
 		this.p2 = s2;
 
 		Globals.temp.addString.accept("ServGame Started");
+
+	}
+
+	public Consumer<CFourInfo> getRematchCallback(serverComThread p1s) {
+
+		return g -> {
+			if (g.getStatus() == status.REMATCH) {
+				Globals.temp.addString.accept("Recieved REMATCH"+ p1s.toString() + g.getStatus());
+				System.out.println("rematch" + p1s.toString());
+				servThread.getInstance().playerQueue.add(p1s);
+
+				servThread.getInstance().processQueue();
+				servThread.getInstance().playerQueue.size();
+			}
+		};
+
+	}
+
+	public Consumer<CFourInfo> getGameCallback(serverComThread p1, serverComThread p2) {
+		return c -> {
+			Globals.temp.addString.accept("Received CFourInfo from " + p1.toString() + ": col" + c.getCol() + ", P" + c.getPlayer() + ", Status" + c.getStatus());
+			p2.send(c);
+
+			if (c.getStatus() == status.TIE || c.getStatus() == status.WIN || c.getStatus() == status.LOSE) {
+				Globals.temp.addString.accept("Received CFourInfo from " + p1.toString() + ": col" + c.getCol() + ", P" + c.getPlayer() + ", Status" + c.getStatus());
+				p2.setCallback(getRematchCallback(p2));
+				p1.setCallback(getRematchCallback(p1));
+
+			}
+		};
 	}
 
 	@Override
@@ -32,20 +63,13 @@ public class servGame extends Thread {
 
 		// I removed the Try catch Around this whole thing, when one disconnects it should error
 		// hopefully we can catch it and say to restart the server with whoever is still alive
-			p1.setCallback(c -> {
-				Globals.temp.addString.accept("Received CFourInfo from P1: col" + c.getCol() + ", P" + c.getPlayer() + ", Status" + c.getStatus());
-				p2.send(c);
-			});
+		p1.setCallback(getGameCallback(p1, p2));
+		p2.setCallback(getGameCallback(p2, p1));
 
-			p2.setCallback(c -> {
-				Globals.temp.addString.accept("Received CFourInfo from P2: col" + c.getCol() + ", P" + c.getPlayer() + ", Status" + c.getStatus());
-				p1.send(c);
-			});
 
-			p1.send(new CFourInfo(-1, 0, status.START));
-			p2.send(new CFourInfo(-1, 0, status.START));
-			// first turn signal
-			//Globals.temp.addString.accept("Sent CFourInfo to P1: col -1, P0, Status START");
+		p1.send(new CFourInfo(-1, 0, status.START));
+		p2.send(new CFourInfo(-1, 0, status.START));
+
 	}
 
 	public serverComThread getP1() {

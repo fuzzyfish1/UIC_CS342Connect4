@@ -8,6 +8,7 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
+import commonCode.CFourInfo;
 import commonCode.status;
 import coms.clientComThread;
 import javafx.application.Platform;
@@ -50,14 +51,24 @@ public class gameStart implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		if (clientGame.getInstance().numGames > 0 ) {
+			clientComThread.getInstance().send(
+					new CFourInfo(-1, 0, status.REMATCH)
+			);
+
 			clientGame.getInstance().reset();
-			clientGame.getInstance().turnNum++;
+			//clientGame.getInstance().turnNum++;
 
 			centerText.setText("Waiting for enemy to join server");
 
 			clientComThread.getInstance().setCallback(info -> {
+				System.out.println("Bleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep");
 
-				if (info.getStatus() == status.START) {
+				if (info.getStatus() == status.WAITING) {
+					// show some waiting
+					clientGame.getInstance().turnNum++;
+					centerText.setText("Waiting for enemy to join server");
+				} else if (info.getStatus() == status.START) {
+
 					changeScene();
 				}
 			});
@@ -70,6 +81,8 @@ public class gameStart implements Initializable {
 
 
 		if (validatePort()) {
+
+			System.out.println("bleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep");
 
 			Globals.temp.port = Integer.parseInt(port.getText());
 

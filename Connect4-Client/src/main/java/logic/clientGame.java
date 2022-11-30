@@ -19,7 +19,7 @@ public class clientGame {
 	}
 
 	public void reset() {
-		currStatus = status.START;
+		currStatus = status.RUNNING;
 
 		for (int x = 0; x < Globals.constants.width; x++) {
 			for (int y = 0; y < board[0].length; y++) {
