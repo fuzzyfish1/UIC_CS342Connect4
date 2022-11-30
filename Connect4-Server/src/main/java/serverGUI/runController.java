@@ -46,7 +46,6 @@ public class runController implements Initializable {
         Globals.temp.addString = addToScrollable;
 
         servThread.getInstance().init(Globals.temp.port);
-        servThread.getInstance().start();
 
     }
 

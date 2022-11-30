@@ -65,11 +65,6 @@ public class servThread {
 
 			System.out.println(waitingDude);
 			System.out.println(playerQueue.size());
-
-
 		}
 	}
-
-
-
 }

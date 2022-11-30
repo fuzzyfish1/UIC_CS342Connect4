@@ -44,18 +44,6 @@ public class clientGame {
 
 	public String errorMsg;
 
-	public void printBoard() {
-		// print out new board
-		for (int y = Globals.constants.height - 1; y >= 0; y--) {
-			for (int x = 0; x < Globals.constants.width; x++) {
-
-				System.out.print(board[x][y]);
-
-			}
-			System.out.println("\n");
-		}
-	}
-
 	public void enemyMove(CFourInfo info) {
 
 		System.out.println("TUIRN NUM");
