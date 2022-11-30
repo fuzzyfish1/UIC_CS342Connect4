@@ -19,7 +19,7 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) { // removed a throws, we have a try catch it is unclean
 		try {
 
 			Globals.temp.primaryStage = primaryStage;

@@ -48,46 +48,70 @@ public class servThread extends Thread {
 	@Override
 	public void run() {
 
+		serverComThread p1 = null, p2 = null;
+
+
+		while (true) {
+
+			try {
+
+				// if one is not alive send the other the wait command
+
+				getActivePlayer(p1);
+				p1.send(new CFourInfo(-1, 0, status.WAITING));
+
+				getActivePlayer(p2);
+
+				servGame g = new servGame();
+				g.init(p1, p2);
+				g.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		/*
 		try {
 			while (true) {
 				Socket temp = serverSocket.accept();
-				serverComThread p1 = new serverComThread(temp, c -> {});
+				p1 = new serverComThread(temp, c -> {});
 
-				p1.send(new CFourInfo(
-						-1, 0, status.WAITING
-				));
+				p1.send(new CFourInfo(-1, 0, status.WAITING));
 
 				temp = serverSocket.accept();
-				serverComThread p2 = new serverComThread(temp, c -> {});
+				p2 = new serverComThread(temp, c -> {});
 
 				servGame g = new servGame();
 				g.init(p1, p2);
 				g.start();
 			}
 
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("This should hopefully try and see if the system");
+
+			if (p1.get)
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+*/
 
+	}
 
-//		try {
-//
-//			Socket p1 = serverSocket.accept();
-//			a.accept("P1: " + p1.getInetAddress() + ":" + p1.getLocalPort());
-//
-//			Socket p2 = serverSocket.accept();
-//			a.accept("P2: " + p1.getInetAddress() + ":" + p1.getLocalPort());
-//
-//			servGame g = new servGame();
-//
-//			g.init(p1, p2, a);
-//
-//			g.start();
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+	public void getActivePlayer(serverComThread player) {
 
+		while (!player.isAlive()) {
 
+			try {
+
+				Socket temp = serverSocket.accept();
+				player = new serverComThread(temp, c -> {});
+
+				break;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

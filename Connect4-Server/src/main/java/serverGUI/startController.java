@@ -33,14 +33,14 @@ public class startController implements Initializable {
     @FXML
     public Button b2;
 
-    public startController () {
+    public startController() {
         super();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
 
-	public void serverThreadStart (ActionEvent e) {
+    public void serverThreadStart(ActionEvent e) {
 
         if (validatePort()) {
             try {
@@ -63,11 +63,11 @@ public class startController implements Initializable {
         } else {
             port.setText("invalid port: ");
         }
-	}
+    }
 
-	public boolean validatePort() {
-		return Integer.parseInt(port.getText()) > 1024;
-	}
+    public boolean validatePort() {
+        return Integer.parseInt(port.getText()) > 1024;
+    }
 
     public void start() throws IOException {
         Parent root = FXMLLoader.load(getClass()

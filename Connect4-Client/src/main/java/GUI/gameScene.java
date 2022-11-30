@@ -139,7 +139,7 @@ public class gameScene implements Initializable {
 	public static void delay(long millis, Runnable continuation) {
 		Task<Void> sleeper = new Task<Void>() {
 			@Override
-			protected Void call() throws Exception {
+			protected Void call() {
 				try { Thread.sleep(millis); }
 				catch (InterruptedException e) { }
 				return null;

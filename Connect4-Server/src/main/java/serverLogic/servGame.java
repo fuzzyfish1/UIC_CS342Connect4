@@ -30,8 +30,8 @@ public class servGame extends Thread {
 	@Override
 	public void run() {
 
-		try {
-
+		// I removed the Try catch Around this whole thing, when one disconnects it should error
+		// hopefully we can catch it and say to restart the server with whoever is still alive
 			p1.setCallback(c -> {
 				Globals.temp.addString.accept("Received CFourInfo from P1: col" + c.getCol() + ", P" + c.getPlayer() + ", Status" + c.getStatus());
 				p2.send(c);
@@ -46,10 +46,6 @@ public class servGame extends Thread {
 			p2.send(new CFourInfo(-1, 0, status.START));
 			// first turn signal
 			//Globals.temp.addString.accept("Sent CFourInfo to P1: col -1, P0, Status START");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public serverComThread getP1() {
