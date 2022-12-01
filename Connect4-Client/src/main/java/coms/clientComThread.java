@@ -7,9 +7,9 @@
  * */
 package coms;
 
-import commonCode.CFourInfo;
-import commonCode.comThread;
-import commonCode.status;
+import lib.CFourInfo;
+import lib.comThread;
+import lib.status;
 import logic.Globals;
 import logic.clientGame;
 

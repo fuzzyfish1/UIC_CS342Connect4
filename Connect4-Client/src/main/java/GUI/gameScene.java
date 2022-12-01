@@ -8,7 +8,7 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
-import commonCode.status;
+import lib.status;
 import coms.clientComThread;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -109,7 +109,7 @@ public class gameScene implements Initializable {
 
 					s1.getStylesheets().add("/styles/style2.css");
 
-					primaryStage.setTitle("Connect 4");
+					primaryStage.setTitle(clientGame.getInstance().errorMsg);
 					primaryStage.setScene(s1);
 					primaryStage.show();
 

@@ -8,8 +8,8 @@ package GUI;
  *  Initializes the server and any communications
  * */
 
-import commonCode.CFourInfo;
-import commonCode.status;
+import lib.CFourInfo;
+import lib.status;
 import coms.clientComThread;
 import javafx.application.Platform;
 import javafx.scene.layout.GridPane;

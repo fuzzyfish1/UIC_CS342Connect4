@@ -10,8 +10,8 @@
 
 package serverLogic;
 
-import commonCode.CFourInfo;
-import commonCode.status;
+import lib.CFourInfo;
+import lib.status;
 import serverComs.serverComThread;
 
 import java.util.concurrent.CountDownLatch;

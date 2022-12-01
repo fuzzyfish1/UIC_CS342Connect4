@@ -3,7 +3,7 @@ package serverComs;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-import commonCode.*;
+import lib.*;
 import serverLogic.Globals;
 
 public class serverComThread extends comThread {
@@ -21,8 +21,5 @@ public class serverComThread extends comThread {
 		Globals.temp.addString.accept(this.toString() + connection.getInetAddress() + ": " + connection.getLocalPort());
 		this.init();
 		this.start();
-
-
 	}
-
 }

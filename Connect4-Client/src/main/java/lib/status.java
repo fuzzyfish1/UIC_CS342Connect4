@@ -1,4 +1,4 @@
-package commonCode;
+package lib;
 
 public enum status {
 

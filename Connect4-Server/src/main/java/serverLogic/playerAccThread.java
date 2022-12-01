@@ -40,7 +40,6 @@ public class playerAccThread extends Thread {
 		while (true) {
 			try {
 
-				System.out.println("sdf;aksdjf;aklsdjf;aklsdjfa;sdfjk");
 				Socket temp = serverSocket.accept();
 				servThread.getInstance().playerQueue.add(new serverComThread(temp, c -> {}));
 

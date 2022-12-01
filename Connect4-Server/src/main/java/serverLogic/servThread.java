@@ -8,18 +8,11 @@
  * */
 package serverLogic;
 
-import commonCode.CFourInfo;
-import commonCode.status;
+import lib.CFourInfo;
+import lib.status;
 import serverComs.serverComThread;
-import serverLogic.Globals;
-import serverLogic.servGame;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.function.Consumer;
 
 public class servThread {
 
@@ -47,14 +40,11 @@ public class servThread {
 		while (!playerQueue.isEmpty()) {
 
 			if (waitingDude == null && !playerQueue.isEmpty()) {
-				System.out.println(waitingDude);
+
 				waitingDude = playerQueue.poll();
 				waitingDude.send(new CFourInfo(-1, 0, status.WAITING));
 
 			} else if (!playerQueue.isEmpty()) {
-
-				System.out.println(waitingDude);
-				System.out.println("STARTING GAME");
 
 				servGame g = new servGame();
 
@@ -62,9 +52,6 @@ public class servThread {
 				g.start();
 				waitingDude = null;
 			}
-
-			System.out.println(waitingDude);
-			System.out.println(playerQueue.size());
 		}
 	}
 }

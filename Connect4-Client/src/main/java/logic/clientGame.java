@@ -1,7 +1,6 @@
 package logic;
 
-import commonCode.CFourInfo;
-import commonCode.status;
+import lib.*;
 import coms.clientComThread;
 
 public class clientGame {
@@ -45,9 +44,6 @@ public class clientGame {
 	public String errorMsg;
 
 	public void enemyMove(CFourInfo info) {
-
-		System.out.println("TUIRN NUM");
-		System.out.println(turnNum);
 
 		int col = info.getCol();
 
@@ -120,10 +116,10 @@ public class clientGame {
 
 		this.currStatus = this.checkWin();
 
-		if (this.currStatus == commonCode.status.WIN) {
+		if (this.currStatus == status.WIN) {
 			errorMsg = "YOU WINNER WINNER CHIGGEN DINNER";
-		} else if (this.currStatus == commonCode.status.TIE) {
-			errorMsg = "you tied with the enemy";
+		} else if (this.currStatus == status.TIE) {
+			errorMsg = "RIP YOU LOST";
 		}
 
 		clientComThread.getInstance().send(
@@ -146,6 +142,10 @@ public class clientGame {
 
 		try {
 			for (int i = 0; i < 4; i++) {
+				//System.out.println("xcurr");
+				//System.out.println(xCurr);
+				//System.out.println("ycurr");
+				//System.out.println(yCurr);
 
 				if (board[xCurr][yCurr] != value) {
 					return false;
@@ -179,8 +179,14 @@ public class clientGame {
 		int count = 0;
 		boolean win = false;
 
+
 		for (int x = 0; x < Globals.constants.width; x++) {
 			for (int y = 0; y < Globals.constants.height; y++) {
+
+				//System.out.println("x");
+				//System.out.println(x);
+				//System.out.println("y");
+				//System.out.println(y);
 
 				if (board[x][y] == 1) {
 
@@ -190,7 +196,7 @@ public class clientGame {
 					win |= checkDirection(1, -1, x, y, 1);
 
 					if (win) {
-						System.out.println("we Wins");
+						//System.out.println("we Wins");
 						return status.WIN;
 					}
 					count++;
@@ -200,8 +206,10 @@ public class clientGame {
 			}
 		}
 
+
+
 		if (count == Globals.constants.height * Globals.constants.width) {
-			System.out.println("we tied");
+			//System.out.println("we tied");
 			this.currStatus = status.TIE;
 			return status.TIE;
 		} else {
@@ -209,4 +217,5 @@ public class clientGame {
 			return status.RUNNING;
 		}
 	}
+
 }

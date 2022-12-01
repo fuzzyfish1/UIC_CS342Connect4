@@ -7,11 +7,11 @@
 	<groupId>CS342Fall22</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<parent>
-		<artifactId>aggregatorPom</artifactId>
-		<groupId>CS342Fall22</groupId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+<!--	<parent>-->
+<!--		<artifactId>aggregatorPom</artifactId>-->
+<!--		<groupId>CS342Fall22</groupId>-->
+<!--		<version>0.0.1-SNAPSHOT</version>-->
+<!--	</parent>-->
 
 	<artifactId>Connect4-Server</artifactId>
 	<packaging>jar</packaging>
@@ -48,13 +48,13 @@
 			<version>12</version>
 		</dependency>
 
-		<dependency>
-			<groupId>CS342Fall22</groupId>
-			<artifactId>lib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-<!--			<type>jar</type>-->
-<!--			<scope>compile</scope>-->
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>CS342Fall22</groupId>-->
+<!--			<artifactId>lib</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--&lt;!&ndash;			<type>jar</type>&ndash;&gt;-->
+<!--&lt;!&ndash;			<scope>compile</scope>&ndash;&gt;-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
